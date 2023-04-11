@@ -34,6 +34,7 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     }
 
     pathUpdate() {
+        // console.log(Math.floor(this.t * 100))
         const tween = this.pathTween;
         if (tween && tween.isPlaying()) {
             this.t = tween.getValue();

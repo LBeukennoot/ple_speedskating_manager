@@ -29,16 +29,16 @@ import Icerink from "./Icerink";
 // };
 
 const config = {
-    width: 900,
-    height: 443,
+    width: 1920,
+    height: 1080,
     backgroundColor: 0x000000,
-    pixelArt: true,
+    // pixelArt: false,
     physics: {
         default: "arcade",
-        arcade: {
-            debug: false
+        // arcade: {
+            // debug: false
             //debugShowVelocity: false
-        }
+        // }
     },
     scene: [Icerink],
     type: Phaser.AUTO,
