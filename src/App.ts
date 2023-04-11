@@ -1,5 +1,6 @@
 import "phaser";
-import Icerink from "./Icerink";
+import Startup from "./Scenes/Startup";
+import Icerink from "./Scenes/Icerink";
 
 //@ts-ignore
 // let config: GameConfig = {
@@ -40,7 +41,7 @@ const config = {
             //debugShowVelocity: false
         // }
     },
-    scene: [Icerink],
+    scene: [Startup, Icerink],
     type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.FIT

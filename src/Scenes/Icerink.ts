@@ -1,4 +1,4 @@
-import Skater from "./Skater";
+import Skater from "../Skater";
 
 export default class Icerink extends Phaser.Scene {
   circuit: any;
@@ -7,6 +7,10 @@ export default class Icerink extends Phaser.Scene {
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   graphics: Phaser.GameObjects.Graphics;
   path: Phaser.Curves.Path;
+
+  constructor() {
+    super("icerink")
+  }
 
   //codepen: https://codepen.io/cedarcantab/pen/yLPXRzR
   //svg to JSON path: https://natureofcode.github.io/svg-to-phaser-path/

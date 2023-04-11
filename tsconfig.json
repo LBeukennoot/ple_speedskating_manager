@@ -4,5 +4,5 @@
   },
   "include": [
     "src/*"
-  ]
+, "src/Scenes/Icerink.ts", "src/Scenes/Startup.ts"  ]
 }
