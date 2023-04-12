@@ -2,11 +2,11 @@ import Skater from "../Skater";
 
 export default class Icerink extends Phaser.Scene {
   circuit: any;
-  redCar: Skater;
-  yellowCar: any;
+  player: Skater;
   cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
   graphics: Phaser.GameObjects.Graphics;
   path: Phaser.Curves.Path;
+  opposite: Skater;
 
   constructor() {
     super("icerink")
@@ -17,8 +17,7 @@ export default class Icerink extends Phaser.Scene {
 
   preload() {
     this.load.image('trackImage', 'assets/icerink.png');
-    this.load.image('redcar', 'assets/speedskater.png');
-    this.load.image('yellowcar', 'assets/speedskater.png');
+    this.load.image('player', 'assets/speedskater.png');
     this.load.json('path', 'assets/route.json')
   }
 
@@ -26,26 +25,38 @@ export default class Icerink extends Phaser.Scene {
     this.path = new Phaser.Curves.Path(this.cache.json.get('path'));
 
     this.drawPath(true);
-    this.redCar = new Skater(this, 460, 398, 'redcar');
+    this.player = new Skater({
+      scene: this,
+      texture: 'player'
+    });
     //@ts-ignore
-    this.redCar.startFollow({ path: this.path, pathOffset: -18 }); // don't specify duration -> want to control speed manually
-    this.yellowCar = new Skater(this, 0, 0, 'yellowcar');
-    this.yellowCar.startFollow({ path: this.path, duration: 8000, pathOffset: -18 });
+    this.player.startFollow({ path: this.path, pathOffset: -18 }); // don't specify duration -> want to control speed manually
+    this.opposite = new Skater({
+      scene: this,
+      texture: 'player',
+      startSpeed: 0.05,
+      speed: 3,
+      startPosition: 50,
+      tint: 0xff00ff
+    });
+    //@ts-ignore
+    this.opposite.startFollow({ path: this.path, pathOffset: -18 }); // don't specify duration -> want to control speed manually
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.add.text(8, 2, ["UP Arrow: Accelerate", "DOWN Arrow: Decelerate"], { color: '0x0000ff' })
   }
 
   update() {
-    this.controlRedCar();
+    // this.player.acceleration = 2;
+    this.controlPlayer();
   }
 
-  controlRedCar() {
-    this.redCar.acceleration = 0;
+  controlPlayer() {
+    this.player.acceleration = 0;
     if (this.cursorKeys.down.isDown) {
-      this.redCar.acceleration = -0.00001;
+      this.player.acceleration = -0.05;
     } else if (this.cursorKeys.up.isDown) {
-      this.redCar.acceleration = 0.00001;
+      this.player.acceleration = 0.05;
     }
   }
 
