@@ -12,7 +12,7 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     acceleration: number
     startOperationDone: boolean;
 
-    constructor({scene, texture, maxSpeed = 20, speed = 1, startSpeed = 0.05, startPosition = 0, tint = 0xffffff}) {
+    constructor({ scene, texture, maxSpeed = 20, speed = 1, startSpeed = 0.05, startPosition = 0, tint = 0xffffff }) {
         super(scene, 0, 0, texture);
         this.scene = scene;
         scene.add.existing(this);
@@ -44,7 +44,6 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     }
 
     pathUpdate() {
-        console.log(this.t * 100)
 
         const tween = this.pathTween;
         if (tween && tween.isPlaying()) {
@@ -67,10 +66,18 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         } else {
             this.speed = Phaser.Math.Clamp(this.speed + this.startSpeed, 0, this.maxSpeed)
             this.t = this.t + this.normalize(this.speed) <= 1 ? this.t + this.normalize(this.speed) : 0;
-            if(this.speed === this.maxSpeed) {
+            if (this.speed === this.maxSpeed) {
                 this.startOperationDone = true;
             }
         }
+    }
+
+    getX() {
+        return this.pathVector.x
+    }
+
+    getY() {
+        return this.pathVector.y
     }
 
     normalize(value: number) {

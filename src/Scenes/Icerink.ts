@@ -22,6 +22,10 @@ export default class Icerink extends Phaser.Scene {
   }
 
   create() {
+    this.cameras.main.setBounds(0, 0, 1920, 1080);
+    
+
+
     this.path = new Phaser.Curves.Path(this.cache.json.get('path'));
 
     this.drawPath(true);
@@ -35,7 +39,7 @@ export default class Icerink extends Phaser.Scene {
       scene: this,
       texture: 'player',
       startSpeed: 0.05,
-      speed: 3,
+      // speed: 3,
       startPosition: 50,
       tint: 0xff00ff
     });
@@ -44,11 +48,15 @@ export default class Icerink extends Phaser.Scene {
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
     this.add.text(8, 2, ["UP Arrow: Accelerate", "DOWN Arrow: Decelerate"], { color: '0x0000ff' })
+
+    this.cameras.main.setZoom(4);
   }
 
   update() {
     // this.player.acceleration = 2;
     this.controlPlayer();
+    this.cameras.main.centerOn(this.player.getX(), this.player.getY());
+
   }
 
   controlPlayer() {
