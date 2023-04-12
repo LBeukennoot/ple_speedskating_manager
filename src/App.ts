@@ -1,6 +1,7 @@
 import "phaser";
 import Startup from "./Scenes/Startup";
 import Icerink from "./Scenes/Icerink";
+import IcerinkHUD from "./Scenes/IcerinkHUD";
 
 //@ts-ignore
 // let config: GameConfig = {
@@ -41,7 +42,7 @@ const config = {
             //debugShowVelocity: false
         // }
     },
-    scene: [Startup, Icerink],
+    scene: [Startup, Icerink, IcerinkHUD],
     type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.FIT

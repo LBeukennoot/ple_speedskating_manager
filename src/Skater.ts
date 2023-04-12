@@ -30,7 +30,7 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         this.pathOffset;
         this.t = startPosition / 100
 
-        //https://ijsverenigingwoubrugge.nl/ijsvereniging/activiteiten/2015-05-11-09-06-53
+        // calculating speed: https://ijsverenigingwoubrugge.nl/ijsvereniging/activiteiten/2015-05-11-09-06-53
         this.maxSpeed = maxSpeed; //53 sec if maxSpeed = 20 (33.96 km/uur)
         this.speed = speed;
         this.startSpeed = startSpeed;

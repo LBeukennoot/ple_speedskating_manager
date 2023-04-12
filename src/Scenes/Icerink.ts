@@ -7,6 +7,7 @@ export default class Icerink extends Phaser.Scene {
   graphics: Phaser.GameObjects.Graphics;
   path: Phaser.Curves.Path;
   opposite: Skater;
+  hud: any;
 
   constructor() {
     super("icerink")
@@ -47,7 +48,11 @@ export default class Icerink extends Phaser.Scene {
     this.opposite.startFollow({ path: this.path, pathOffset: -18 }); // don't specify duration -> want to control speed manually
 
     this.cursorKeys = this.input.keyboard.createCursorKeys();
-    this.add.text(8, 2, ["UP Arrow: Accelerate", "DOWN Arrow: Decelerate"], { color: '0x0000ff' })
+    // let t = this.add.text(0, 0, `hey`, { fontSize: "20rem" })
+    //@ts-ignore
+    // t.cameraFilter
+
+    this.hud = this.scene.launch("icerinkhud", {speed: this.player.speed})
 
     this.cameras.main.setZoom(4);
   }
@@ -56,7 +61,6 @@ export default class Icerink extends Phaser.Scene {
     // this.player.acceleration = 2;
     this.controlPlayer();
     this.cameras.main.centerOn(this.player.getX(), this.player.getY());
-
   }
 
   controlPlayer() {
