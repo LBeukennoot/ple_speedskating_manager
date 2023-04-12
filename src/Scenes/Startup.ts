@@ -2,6 +2,7 @@ import Icerink from "./Icerink";
 
 export default class Startup extends Phaser.Scene {
     timedEvent: Phaser.Time.TimerEvent;
+    countdownTime: Number = 3
     countdownText: Phaser.GameObjects.Text;
 
     constructor() {
@@ -13,18 +14,24 @@ export default class Startup extends Phaser.Scene {
     }
 
     create() {
-        this.countdownText = this.add.text(0,0, "")
+        this.countdownText = this.add.text(0, 0, `${this.countdownTime}`, { fontSize: "20rem" })
 
-        this.timedEvent = this.time.delayedCall(3000, this.onEvent, [], this);
+        this.timedEvent = this.time.addEvent({ delay: 1000, callback: this.onEvent, callbackScope: this, loop: true });
 
     }
 
     update() {
-        this.countdownText.setText(Math.floor((this.timedEvent.getProgress() * 3) + 1).toString())
+        this.countdownText.setText(`${this.countdownTime}`)
     }
 
     onEvent() {
-        this.scene.start("icerink")
+
+        if (this.countdownTime == 0) {
+            this.scene.start("icerink")
+        } else {
+            //@ts-ignore
+            this.countdownTime--
+        }
 
     }
 }
