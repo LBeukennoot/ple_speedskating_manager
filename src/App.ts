@@ -33,7 +33,7 @@ import IcerinkHUD from "./Scenes/IcerinkHUD";
 const config = {
     width: 1920,
     height: 1080,
-    backgroundColor: 0x000000,
+    backgroundColor: 0x888888,
     // pixelArt: false,
     physics: {
         default: "arcade",

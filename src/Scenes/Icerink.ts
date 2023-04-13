@@ -52,7 +52,8 @@ export default class Icerink extends Phaser.Scene {
     //@ts-ignore
     // t.cameraFilter
 
-    this.hud = this.scene.launch("icerinkhud", {speed: this.player.speed})
+    this.scene.launch("icerinkhud", {speed: this.player.speed})
+    this.hud = this.scene.get("icerinkhud")
 
     this.cameras.main.setZoom(4);
   }
@@ -61,6 +62,7 @@ export default class Icerink extends Phaser.Scene {
     // this.player.acceleration = 2;
     this.controlPlayer();
     this.cameras.main.centerOn(this.player.getX(), this.player.getY());
+    this.hud.speed = this.player.speed
   }
 
   controlPlayer() {
