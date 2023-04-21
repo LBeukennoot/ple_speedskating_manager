@@ -47,11 +47,7 @@ export default class Icerink extends Phaser.Scene {
     //@ts-ignore
     this.opposite.startFollow({ path: this.path, pathOffset: -18 }) // don't specify duration -> want to control speed manually
 
-    this.cursorKeys = this.input.keyboard.createCursorKeys()
-    // let t = this.add.text(0, 0, `hey`, { fontSize: "20rem" })
-    //@ts-ignore
-    // t.cameraFilter
-
+    
     this.scene.launch("icerinkhud", {player: this.player})
     this.hud = this.scene.get("icerinkhud")
 
@@ -63,15 +59,6 @@ export default class Icerink extends Phaser.Scene {
     // this.controlPlayer()
     this.cameras.main.centerOn(this.player.getX(), this.player.getY())
     this.hud.speed = this.player.speed
-  }
-
-  controlPlayer() {
-    this.player.acceleration = 0
-    if (this.cursorKeys.down.isDown) {
-      this.player.acceleration = -0.05
-    } else if (this.cursorKeys.up.isDown) {
-      this.player.acceleration = 0.05
-    }
   }
 
   drawPath(debug = false) {
