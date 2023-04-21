@@ -1,13 +1,13 @@
-import Skater from "../Skater";
+import Skater from "../Skater"
 
 export default class Icerink extends Phaser.Scene {
-  circuit: any;
-  player: Skater;
-  cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys;
-  graphics: Phaser.GameObjects.Graphics;
-  path: Phaser.Curves.Path;
-  opposite: Skater;
-  hud: any;
+  circuit: any
+  player: Skater
+  cursorKeys: Phaser.Types.Input.Keyboard.CursorKeys
+  graphics: Phaser.GameObjects.Graphics
+  path: Phaser.Curves.Path
+  opposite: Skater
+  hud: any
 
   constructor() {
     super("icerink")
@@ -17,25 +17,25 @@ export default class Icerink extends Phaser.Scene {
   //svg to JSON path: https://natureofcode.github.io/svg-to-phaser-path/
 
   preload() {
-    this.load.image('trackImage', 'assets/icerink.png');
-    this.load.image('player', 'assets/speedskater.png');
+    this.load.image('trackImage', 'assets/icerink.png')
+    this.load.image('player', 'assets/speedskater.png')
     this.load.json('path', 'assets/route.json')
   }
 
   create() {
-    this.cameras.main.setBounds(0, 0, 1920, 1080);
+    this.cameras.main.setBounds(0, 0, 1920, 1080)
     
 
 
-    this.path = new Phaser.Curves.Path(this.cache.json.get('path'));
+    this.path = new Phaser.Curves.Path(this.cache.json.get('path'))
 
-    this.drawPath(true);
+    this.drawPath(true)
     this.player = new Skater({
       scene: this,
       texture: 'player'
     });
     //@ts-ignore
-    this.player.startFollow({ path: this.path, pathOffset: -18 }); // don't specify duration -> want to control speed manually
+    this.player.startFollow({ path: this.path, pathOffset: -18 }) // don't specify duration -> want to control speed manually
     this.opposite = new Skater({
       scene: this,
       texture: 'player',
@@ -43,44 +43,44 @@ export default class Icerink extends Phaser.Scene {
       // speed: 3,
       startPosition: 50,
       tint: 0xff00ff
-    });
+    })
     //@ts-ignore
-    this.opposite.startFollow({ path: this.path, pathOffset: -18 }); // don't specify duration -> want to control speed manually
+    this.opposite.startFollow({ path: this.path, pathOffset: -18 }) // don't specify duration -> want to control speed manually
 
-    this.cursorKeys = this.input.keyboard.createCursorKeys();
+    this.cursorKeys = this.input.keyboard.createCursorKeys()
     // let t = this.add.text(0, 0, `hey`, { fontSize: "20rem" })
     //@ts-ignore
     // t.cameraFilter
 
-    this.scene.launch("icerinkhud", {speed: this.player.speed})
+    this.scene.launch("icerinkhud", {player: this.player})
     this.hud = this.scene.get("icerinkhud")
 
-    this.cameras.main.setZoom(4);
+    this.cameras.main.setZoom(4)
   }
 
   update() {
     // this.player.acceleration = 2;
-    this.controlPlayer();
-    this.cameras.main.centerOn(this.player.getX(), this.player.getY());
+    // this.controlPlayer()
+    this.cameras.main.centerOn(this.player.getX(), this.player.getY())
     this.hud.speed = this.player.speed
   }
 
   controlPlayer() {
-    this.player.acceleration = 0;
+    this.player.acceleration = 0
     if (this.cursorKeys.down.isDown) {
-      this.player.acceleration = -0.05;
+      this.player.acceleration = -0.05
     } else if (this.cursorKeys.up.isDown) {
-      this.player.acceleration = 0.05;
+      this.player.acceleration = 0.05
     }
   }
 
   drawPath(debug = false) {
     // this.add.image(0, 0, 'trackImage').setOrigin(0, 0);
     if (debug) {
-      this.graphics = this.add.graphics();
+      this.graphics = this.add.graphics()
       // this.graphics.setPosition(14, 35)
       this.graphics.lineStyle(2, 0x0000ff, 1);
-      this.path.draw(this.graphics);
+      this.path.draw(this.graphics)
     }
   }
 }
