@@ -4,9 +4,14 @@ import Skater from '../Skater'
 
 export default class IcerinkHUD extends Phaser.Scene {
   timerText: Phaser.GameObjects.Text
-  betweenTimeOuterlaneText: Phaser.GameObjects.Text
-  betweenTimeInnerlaneText: Phaser.GameObjects.Text
+  splitTime1: Phaser.GameObjects.Text
+  splitTime2: Phaser.GameObjects.Text
+
+  skaterName1: Phaser.GameObjects.Text
+  skaterName2: Phaser.GameObjects.Text
+
   player: Skater
+  opponent: Skater
   size: { width: number, height: number }
   timer: Date
 
@@ -15,8 +20,9 @@ export default class IcerinkHUD extends Phaser.Scene {
   }
 
 
-  init({ player }) {
+  init({ player, opponent }) {
     this.player = player
+    this.opponent = opponent
   }
 
   preload() {
@@ -29,14 +35,18 @@ export default class IcerinkHUD extends Phaser.Scene {
 
     const textStyle = { fontSize: "3.5rem", fontFamily: "Open Sans", fontStyle: "bolder italic", fill: "black", align: "right", boundsAlignH: 'right' }
     const smallTextStyle = { fontSize: "2.6rem", fontFamily: "Open Sans", fontStyle: "bolder italic", fill: "black", align: "right", boundsAlignH: 'right' }
+    const nameStyle = { fontSize: "2.6rem", fontFamily: "Open Sans", fontStyle: "bolder italic", fill: "white", align: "right", boundsAlignH: 'right' }
 
     let hudImage = this.add.image(0, 0, 'hud').setOrigin(0, 0)
 
     this.initButtons(textStyle)
 
     this.timerText = this.add.text(908, 964, `0.00`, textStyle).setOrigin(0.5, 0.5)
-    this.betweenTimeOuterlaneText = this.add.text(912, 901, `0.00`, smallTextStyle).setOrigin(0.5, 0.5)
-    this.betweenTimeInnerlaneText = this.add.text(912, 837, `0.00`, smallTextStyle).setOrigin(0.5, 0.5)
+    this.splitTime1 = this.add.text(912, 837, `0.00`, smallTextStyle).setOrigin(0.5, 0.5)
+    this.splitTime2 = this.add.text(912, 901, `0.00`, smallTextStyle).setOrigin(0.5, 0.5)
+
+    this.skaterName1 = this.add.text(334, 833, this.player.name.toUpperCase(), nameStyle).setOrigin(0, 0.5)
+    this.skaterName2 = this.add.text(334, 895, this.opponent.name.toUpperCase(), nameStyle).setOrigin(0, 0.5)
 
     this.input.mouse.disableContextMenu()
 
@@ -79,6 +89,9 @@ export default class IcerinkHUD extends Phaser.Scene {
 
     this.timer = new Date(time)
     this.timerText.text = this.formatDate(this.timer)
+
+    this.splitTime1.text = this.formatDate(this.player.getLastFinishTime())
+    this.splitTime2.text = this.formatDate(this.opponent.getLastFinishTime())
 
   }
 }

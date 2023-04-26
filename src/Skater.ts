@@ -11,9 +11,10 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     startSpeed: number
     acceleration: number
     startOperationDone: boolean;
-    finishTimes: Array<Date>;
+    finishTimes: Array<Date> = [new Date(0)];
+    name: string;
 
-    constructor({ scene, texture, maxSpeed = 20, speed = 1, startSpeed = 0.05, startPosition = 0, tint = 0xffffff }) {
+    constructor({ scene, texture, maxSpeed = 20, speed = 1, startSpeed = 0.05, startPosition = 0, tint = 0xffffff, name = "-" }) {
         super(scene, 0, 0, texture)
         this.scene = scene
         scene.add.existing(this)
@@ -21,6 +22,7 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         this.flipX = true
 
         this.tint = tint
+        this.name = name
 
         this.setScale(0.3);
         this.pathTweenCounter = { t: 0, vec: new Phaser.Math.Vector2() }
@@ -42,9 +44,15 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     preUpdate(time, delta) {
         super.preUpdate(time, delta)
         this.pathUpdate()
+
+        if (this.isOnFinishline()) {
+            this.addFinishTime(time)
+        }
     }
 
     pathUpdate() {
+
+
 
         const tween = this.pathTween
         if (tween && tween.isPlaying()) {
@@ -81,8 +89,19 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         return this.pathVector.y
     }
 
+    isOnFinishline() {
+        let trackProcent = this.t * 100
+
+        if (trackProcent >= 62 && trackProcent < 62 + this.normalize(this.speed) * 100 ||
+            trackProcent >= 12 && trackProcent < 12 + this.normalize(this.speed) * 100) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     addFinishTime(date: Date) {
-        this.finishTimes.push(date)
+        this.finishTimes.push(new Date(date))
     }
 
     getLastFinishTime(): Date {
