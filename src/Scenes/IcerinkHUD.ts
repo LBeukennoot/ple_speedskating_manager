@@ -10,6 +10,12 @@ export default class IcerinkHUD extends Phaser.Scene {
   skaterName1: Phaser.GameObjects.Text
   skaterName2: Phaser.GameObjects.Text
 
+  distances = {
+    '500': {
+      finishDistances: [0, 100, 500]
+    }
+  }
+
   player: Skater
   opponent: Skater
   size: { width: number, height: number }

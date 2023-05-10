@@ -23,7 +23,7 @@ export default class Icerink extends Phaser.Scene {
   }
 
   create() {
-    this.cameras.main.setBounds(0, 0, 1920, 1080)
+    this.cameras.main.setBounds(0, 0, 3753, 1854.65)
     
 
 
@@ -68,11 +68,11 @@ export default class Icerink extends Phaser.Scene {
   }
 
   drawPath(debug = false) {
-    // this.add.image(0, 0, 'trackImage').setOrigin(0, 0);
+    this.add.image(0, 0, 'trackImage').setOrigin(0, 0);
     if (debug) {
       this.graphics = this.add.graphics()
       // this.graphics.setPosition(14, 35)
-      this.graphics.lineStyle(2, 0x0000ff, 1);
+      // this.graphics.lineStyle(2, 0x0000ff, 1);
       this.path.draw(this.graphics)
     }
   }
