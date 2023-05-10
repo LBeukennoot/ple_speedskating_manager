@@ -38,7 +38,7 @@ export default class Icerink extends Phaser.Scene {
     //@ts-ignore
     this.player.startFollow({ 
       path: this.path, 
-      pathOffset: -18,
+      pathOffset: 0,
     }) // don't specify duration -> want to control speed manually
     this.opposite = new Skater({
       scene: this,
@@ -50,13 +50,13 @@ export default class Icerink extends Phaser.Scene {
       name: "Koen Verweij"
     })
     //@ts-ignore
-    this.opposite.startFollow({ path: this.path, pathOffset: -18 }) // don't specify duration -> want to control speed manually
+    this.opposite.startFollow({ path: this.path, pathOffset: 0 }) // don't specify duration -> want to control speed manually
 
     
     this.scene.launch("icerinkhud", {player: this.player, opponent: this.opposite})
     this.hud = this.scene.get("icerinkhud")
 
-    this.cameras.main.setZoom(4)
+    this.cameras.main.setZoom(3)
   }
 
   update() {
