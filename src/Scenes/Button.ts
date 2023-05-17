@@ -10,7 +10,7 @@ export default class Button {
     textureOnclick: string
     buttonNormal: Phaser.GameObjects.Image
     button: Phaser.GameObjects.Image
-
+    clickable : boolean = true
 
     constructor({scene, x, y, textureNormal, textureOnClick, pointerDown, pointerUp}) {
     // constructor(scene: Phaser.Scene, x: number, y: number, textureNormal: string, textureOnclick:string, onClick: Function) {
@@ -33,8 +33,9 @@ export default class Button {
     
         }, this);
     
+        let mask = this.button.createBitmapMask()
 
-        this.button.setInteractive().on('pointerup', () => {
+        this.button.setInteractive(mask.bitmapMask).on('pointerup', () => {
     
           this.button.alpha = 1
           pointerUp()
@@ -42,6 +43,10 @@ export default class Button {
         }, this);
 
 
+    }
+
+    setClickable(v: boolean): void {
+      this.button
     }
 
     pointerDown(button) {

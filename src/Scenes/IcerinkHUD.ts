@@ -20,6 +20,9 @@ export default class IcerinkHUD extends Phaser.Scene {
   opponent: Skater
   size: { width: number, height: number }
   timer: Date
+  boostButton : Button
+  boostLevel: number = 0
+  boostActive: boolean = false
 
   constructor() {
     super('icerinkhud')
@@ -35,6 +38,7 @@ export default class IcerinkHUD extends Phaser.Scene {
     this.load.svg('hud', 'assets/hud.svg')
     this.load.svg('hud_button_normal', 'assets/hud_button_normal.svg')
     this.load.svg('hud_button_click', 'assets/hud_button_click.svg')
+    this.load.svg('hud_button_stamina', 'assets/hud_button_stamina.svg')
   }
 
   create() {
@@ -59,6 +63,8 @@ export default class IcerinkHUD extends Phaser.Scene {
   }
 
   initButtons(textStyle) {
+
+
     let slowButton = new Button({
       scene: this,
       x: 1430,
@@ -69,7 +75,10 @@ export default class IcerinkHUD extends Phaser.Scene {
       pointerUp: () => { this.player.acceleration = 0 }
     })
     let slowText = this.add.text(1430, 901, 'slow', textStyle).setOrigin(0.5, 0.5)
-    let boostButton = new Button({
+
+
+
+    this.boostButton = new Button({
       scene: this,
       x: 1699,
       y: 901,
@@ -78,7 +87,16 @@ export default class IcerinkHUD extends Phaser.Scene {
       pointerDown: () => { this.player.acceleration = 0.05; this.player.maxSpeed *= 1.1 },
       pointerUp: () => { this.player.acceleration = 0; this.player.maxSpeed /= 1.1 }
     })
+
+    let mask = this.boostButton.button.createBitmapMask()
+    let test = this.add.image(1699 -100, 901, 'hud_button_stamina')
+    test.setMask(mask);
+
+    // boost bar 0% = origin - 202
+    // boost bar 100% = origin
+
     let boostText = this.add.text(1699, 901, 'boost', textStyle).setOrigin(0.5, 0.5)
+
   }
 
 
