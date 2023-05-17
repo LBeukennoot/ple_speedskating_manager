@@ -1,5 +1,6 @@
 import 'phaser'
 import Button from './Button'
+import BoostButton from './BoostButton'
 import Skater from '../Skater'
 
 export default class IcerinkHUD extends Phaser.Scene {
@@ -20,9 +21,8 @@ export default class IcerinkHUD extends Phaser.Scene {
   opponent: Skater
   size: { width: number, height: number }
   timer: Date
-  boostButton : Button
-  boostLevel: number = 0
-  boostActive: boolean = false
+  boostButton: BoostButton
+
 
   constructor() {
     super('icerinkhud')
@@ -78,19 +78,21 @@ export default class IcerinkHUD extends Phaser.Scene {
 
 
 
-    this.boostButton = new Button({
+    this.boostButton = new BoostButton({
       scene: this,
       x: 1699,
       y: 901,
       textureNormal: 'hud_button_normal',
       textureOnClick: 'hud_button_click',
-      pointerDown: () => { this.player.acceleration = 0.05; this.player.maxSpeed *= 1.1 },
-      pointerUp: () => { this.player.acceleration = 0; this.player.maxSpeed /= 1.1 }
-    })
+      pointerDown: () => {  },
+      pointerUp: () => {  }
+    }, this.player)
 
-    let mask = this.boostButton.button.createBitmapMask()
-    let test = this.add.image(1699 -100, 901, 'hud_button_stamina')
-    test.setMask(mask);
+    // let mask = this.boostButton.buttonNormal.createBitmapMask()
+    // this.boostButtonLevel = this.add.image(1699 - (2*this.boostLevel), 901, 'hud_button_stamina')
+    // this.boostButtonLevel.setMask(mask);
+
+    // this.boostButton.setClickable(false)
 
     // boost bar 0% = origin - 202
     // boost bar 100% = origin
@@ -110,6 +112,8 @@ export default class IcerinkHUD extends Phaser.Scene {
 
 
   update(time, delta) {
+
+    this.boostButton.update()
 
     this.timer = new Date(time)
     this.timerText.text = this.formatDate(this.timer)
