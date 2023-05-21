@@ -30,7 +30,6 @@ export default class Button {
     this.buttonNormal.setInteractive().on('pointerdown', () => {
 
       if (this.clickable) {
-        console.log("down")
         this.buttonClick.alpha = 1
         this.buttonNormal.alpha = 0.7
         this.pointerDown()
@@ -43,7 +42,6 @@ export default class Button {
     this.buttonNormal.setInteractive(mask.bitmapMask).on('pointerup', () => {
 
       if (this.clickable) {
-        console.log("up")
         this.buttonClick.alpha = 0.01
         this.buttonNormal.alpha = 1
         this.pointerUp()

@@ -13,6 +13,14 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     startOperationDone: boolean;
     finishTimes: Array<Date> = [new Date(0)];
     name: string;
+    boostActive: boolean = false
+
+    boostSpeed = 1.1
+
+    r = 0
+
+    speedParticles
+    particlesEmitter
 
     constructor({ scene, texture, maxSpeed = 20, speed = 1, startSpeed = 0.05, startPosition = 0, tint = 0xffffff, name = "-" }) {
         super(scene, 0, 0, texture)
@@ -39,6 +47,33 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         this.startSpeed = startSpeed
         this.acceleration = 0
         this.startOperationDone = false
+
+        this.speedParticles = this.scene.add.particles('line');
+
+        this.particlesEmitter = this.speedParticles.createEmitter(
+            {
+                x: 0,
+                y: 0,
+                lifespan: 400,
+                alpha: { start: 1, end: 0, ease: 'linear' },
+                scale: { start: 0, end: 0.5, ease: 'linear' },
+                tintFill: [0xff0000, 0x000000],
+
+                rotate: {
+                    onEmit: () => {
+                        return this.rotation * 180 / Math.PI
+                    },
+                },
+                emitZone: {
+                    type: 'random',
+                    source: new Phaser.Geom.Circle(0, 0, 20),
+                }
+            }
+        )
+
+        this.particlesEmitter.startFollow(this)
+        this.particlesEmitter.stop()
+
     }
 
     preUpdate(time, delta) {
@@ -47,6 +82,20 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
 
         if (this.isOnFinishline()) {
             this.addFinishTime(time)
+        }
+    }
+
+    toggleBoost(b) {
+        if (b) {
+            this.acceleration = 0.05;
+            this.maxSpeed *= this.boostSpeed
+            this.particlesEmitter.start()
+            this.boostActive = false
+        } else {
+            this.acceleration = 0;
+            this.maxSpeed /= this.boostSpeed
+            this.particlesEmitter.stop()
+            this.boostActive = true
         }
     }
 

@@ -19,13 +19,12 @@ export default class Icerink extends Phaser.Scene {
   preload() {
     this.load.image('trackImage', 'assets/icerink.png')
     this.load.image('player', 'assets/speedskater.png')
+    this.load.atlas('line', 'assets/particles/line.png', 'assets/particles/line.json');
     this.load.json('path', 'assets/route.json')
   }
 
   create() {
     this.cameras.main.setBounds(0, 0, 3753, 1854.65)
-    
-
 
     this.path = new Phaser.Curves.Path(this.cache.json.get('path'))
 
@@ -33,11 +32,12 @@ export default class Icerink extends Phaser.Scene {
     this.player = new Skater({
       scene: this,
       texture: 'player',
-      name: "Jutta Leerdam"
+      name: "Jutta Leerdam",
+      tint: 0xff00ff
     });
     //@ts-ignore
-    this.player.startFollow({ 
-      path: this.path, 
+    this.player.startFollow({
+      path: this.path,
       pathOffset: 0,
     }) // don't specify duration -> want to control speed manually
     this.opposite = new Skater({
@@ -46,17 +46,18 @@ export default class Icerink extends Phaser.Scene {
       startSpeed: 0.05,
       // speed: 3,
       startPosition: 50,
-      tint: 0xff00ff,
+      tint: 0x0000ff,
       name: "Koen Verweij"
     })
     //@ts-ignore
     this.opposite.startFollow({ path: this.path, pathOffset: 0 }) // don't specify duration -> want to control speed manually
 
-    
-    this.scene.launch("icerinkhud", {player: this.player, opponent: this.opposite})
+
+    this.scene.launch("icerinkhud", { player: this.player, opponent: this.opposite })
     this.hud = this.scene.get("icerinkhud")
 
     this.cameras.main.setZoom(3)
+
   }
 
   update() {
@@ -76,4 +77,6 @@ export default class Icerink extends Phaser.Scene {
       this.path.draw(this.graphics)
     }
   }
+
+  
 }

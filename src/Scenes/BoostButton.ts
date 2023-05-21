@@ -30,7 +30,9 @@ export default class BoostButton extends Button {
     pointerDown() {
         this.boostActive = true
         this.clickable = false
-        this.player.acceleration = 0.05; this.player.maxSpeed *= this.boostSpeed
+
+        this.player.boostActive = true
+        this.player.toggleBoost(true)
     }
 
     // pointerUp() {
@@ -47,7 +49,9 @@ export default class BoostButton extends Button {
                 this.boostActive = false
                 this.buttonClick.alpha = 0.01
                 this.buttonNormal.alpha = 1
-                this.player.acceleration = 0; this.player.maxSpeed /= this.boostSpeed
+                
+                this.player.boostActive = false
+                this.player.toggleBoost(false)
             }
         } else if (this.boostLevel > 0) {
             this.clickable = true
@@ -61,8 +65,6 @@ export default class BoostButton extends Button {
             this.buttonNormal.alpha = 0.7
         }
 
-
-        console.log(this.boostLevel)
 
         this.boostButtonLevel.x = 1699 + this.boostLevel
     }
