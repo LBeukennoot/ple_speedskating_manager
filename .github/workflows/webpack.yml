@@ -13,7 +13,7 @@ jobs:
     - name: Build
       run: |
         npm install
-        npm build
+        npm run build
         
     - name: Upload files to production server
       uses: SamKirkland/FTP-Deploy-Action@4.3.0
