@@ -26,6 +26,7 @@ export default class IcerinkHUD extends Phaser.Scene {
   size: { width: number, height: number }
   timer: Date
   boostButton: BoostButton
+  slowButton: Button
 
 
   constructor() {
@@ -43,6 +44,7 @@ export default class IcerinkHUD extends Phaser.Scene {
     this.load.svg('hud_button_normal', 'assets/hud_button_normal.svg')
     this.load.svg('hud_button_click', 'assets/hud_button_click.svg')
     this.load.svg('hud_button_stamina', 'assets/hud_button_stamina.svg')
+    this.load.image('flag', 'assets/flag.png')
   }
 
   create() {
@@ -63,20 +65,23 @@ export default class IcerinkHUD extends Phaser.Scene {
     this.skaterName1 = this.add.text(334, 833, this.player.name.toUpperCase(), nameStyle).setOrigin(0, 0.5)
     this.skaterName2 = this.add.text(334, 895, this.opponent.name.toUpperCase(), nameStyle).setOrigin(0, 0.5)
 
+    let skaterFlag1 = this.add.image(266, 836, 'flag').setOrigin(0.5, 0.5).setTint(0xff00ff)
+    let skaterFlag2 = this.add.image(266, 901, 'flag').setOrigin(0.5, 0.5).setTint(0x0000ff)
 
   }
 
   initButtons(textStyle) {
 
 
-    let slowButton = new Button({
+    this.slowButton = new Button({
       scene: this,
       x: 1430,
       y: 901,
       textureNormal: 'hud_button_normal',
+      textureDisabled: 'hud_button_normal',
       textureOnClick: 'hud_button_click',
-      pointerDown: () => { this.player.acceleration = -0.05 },
-      pointerUp: () => { this.player.acceleration = 0.05 }
+      pointerDown: () => { this.player.acceleration = -0.05; this.player.toggleBrake(true) },
+      pointerUp: () => { this.player.acceleration = 0.05; this.player.toggleBrake(false) }
     })
     let slowText = this.add.text(1430, 901, 'slow', textStyle).setOrigin(0.5, 0.5)
 
@@ -87,6 +92,7 @@ export default class IcerinkHUD extends Phaser.Scene {
       x: 1699,
       y: 901,
       textureNormal: 'hud_button_normal',
+      textureDisabled: 'hud_button_click',
       textureOnClick: 'hud_button_click',
     }, this.player)
 
@@ -123,6 +129,7 @@ export default class IcerinkHUD extends Phaser.Scene {
     this.splitTime1.text = this.formatDate(this.player.getLastFinishTime())
     this.splitTime2.text = this.formatDate(this.opponent.getLastFinishTime())
 
+    // this.slowButton.setClickable(this.player.startOperationDone)
 
     if (this.opponent.finishTimes.length == this.distances[this.distance.toString()].finishAmount - 1) {
       this.opponent.acceleration = -0.05

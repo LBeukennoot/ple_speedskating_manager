@@ -18,7 +18,10 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     boostSpeed = 1.1
 
     speedParticles
-    particlesEmitter
+    speedParticlesEmitter
+
+    slowParticles
+    slowParticlesEmitter
 
     constructor({ scene, texture, maxSpeed = 20, speed = 1, startSpeed = 0.05, startPosition = 0, tint = 0xffffff, name = "-" }) {
         super(scene, 0, 0, texture)
@@ -48,7 +51,7 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
 
         //boost particles
         this.speedParticles = this.scene.add.particles('line');
-        this.particlesEmitter = this.speedParticles.createEmitter(
+        this.speedParticlesEmitter = this.speedParticles.createEmitter(
             {
                 x: 0,
                 y: 0,
@@ -68,8 +71,33 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         )
-        this.particlesEmitter.startFollow(this)
-        this.particlesEmitter.stop()
+        this.speedParticlesEmitter.startFollow(this)
+        this.speedParticlesEmitter.stop()
+
+        //slow particles
+        this.slowParticles = this.scene.add.particles('slip');
+        this.slowParticlesEmitter = this.slowParticles.createEmitter(
+            {
+                x: 0,
+                y: 0,
+                lifespan: 1200,
+                alpha: { start: 0.3, end: 0, ease: 'linear' },
+                scale: 0.7,
+                tintFill: [0xff0000, 0x000000],
+
+                rotate: {
+                    onEmit: () => {
+                        return this.rotation * 180 / Math.PI
+                    },
+                },
+                // emitZone: {
+                //     type: 'random',
+                //     source: new Phaser.Geom.Circle(0, 0, 20),
+                // }
+            }
+        )
+        this.slowParticlesEmitter.startFollow(this)
+        this.slowParticlesEmitter.stop()
 
     }
 
@@ -86,13 +114,21 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         if (b) {
             this.acceleration = 0.05;
             this.maxSpeed *= this.boostSpeed
-            this.particlesEmitter.start()
+            this.speedParticlesEmitter.start()
             this.boostActive = false
         } else {
             this.acceleration = 0;
             this.maxSpeed /= this.boostSpeed
-            this.particlesEmitter.stop()
+            this.speedParticlesEmitter.stop()
             this.boostActive = true
+        }
+    }
+
+    toggleBrake(b) {
+        if (b) {
+            this.slowParticlesEmitter.start()
+        } else {
+            this.slowParticlesEmitter.stop()
         }
     }
 

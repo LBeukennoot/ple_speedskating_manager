@@ -1,0 +1,28 @@
+{
+    "frames": {
+        "normal": {
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 40
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 13,
+                "h": 40
+            },
+            "sourceSize": {
+                "w": 13,
+                "h": 40
+            },
+            "pivot": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    }
+}

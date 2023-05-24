@@ -20,6 +20,7 @@ export default class Icerink extends Phaser.Scene {
     this.load.image('trackImage', 'assets/icerink.png')
     this.load.image('player', 'assets/speedskater.png')
     this.load.atlas('line', 'assets/particles/line.png', 'assets/particles/line.json');
+    this.load.atlas('slip', 'assets/particles/slip.png', 'assets/particles/slip.json');
     this.load.json('path', 'assets/route.json')
   }
 
