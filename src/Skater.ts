@@ -116,7 +116,7 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
 
     calculateSpeed() {
         if (this.startOperationDone) {
-            this.speed = Phaser.Math.Clamp(this.speed + this.acceleration, this.maxSpeed / 3, this.maxSpeed)
+            this.speed = Phaser.Math.Clamp(this.speed + this.acceleration, this.maxSpeed / 2, this.maxSpeed)
             this.t = this.t + this.normalize(this.speed) <= 1 ? this.t + this.normalize(this.speed) : 0
         } else {
             this.speed = Phaser.Math.Clamp(this.speed + this.startSpeed, 0, this.maxSpeed)

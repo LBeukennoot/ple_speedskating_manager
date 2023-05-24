@@ -4,46 +4,49 @@ import 'phaser'
 export default class Button {
 
   scene: Phaser.Scene
+
   x: number
   y: number
+
   textureNormal: string
-  textureOnclick: string
-  buttonClick: Phaser.GameObjects.Image
-  buttonNormal: Phaser.GameObjects.Image
+  textureOnClick: string
+
+  button: Phaser.GameObjects.Image
+
   clickable: boolean = true
 
+  pointerDown = () => { }
+  pointerUp = () => { }
+
+
   constructor({ scene, x, y, textureNormal, textureOnClick, pointerDown, pointerUp }) {
-    // constructor(scene: Phaser.Scene, x: number, y: number, textureNormal: string, textureOnclick:string, onClick: Function) {
 
     this.scene = scene
     this.x = x
     this.y = y
     this.textureNormal = textureNormal
-    this.textureOnclick = textureOnClick
+    this.textureOnClick = textureOnClick
+    this.pointerDown = pointerDown
+    this.pointerUp = pointerUp
 
-    this.buttonClick = this.scene.add.image(x, y, textureNormal).setOrigin(0.5, 0.5)
-    this.buttonNormal = this.scene.add.image(x, y, textureOnClick).setOrigin(0.5, 0.5)
+    this.button = this.scene.add.image(x, y, textureNormal).setOrigin(0.5, 0.5)
 
-    this.buttonClick.alpha = 0.01
-    // this.buttonNormal.alpha = 0.01
 
-    this.buttonNormal.setInteractive().on('pointerdown', () => {
+    this.button.setInteractive().on('pointerdown', () => {
 
       if (this.clickable) {
-        this.buttonClick.alpha = 1
-        this.buttonNormal.alpha = 0.7
+        this.button.alpha = 0.75
         this.pointerDown()
       }
 
     }, this);
 
-    let mask = this.buttonNormal.createBitmapMask()
+    let mask = this.button.createBitmapMask()
 
-    this.buttonNormal.setInteractive(mask.bitmapMask).on('pointerup', () => {
+    this.button.setInteractive(mask.bitmapMask).on('pointerup', () => {
 
       if (this.clickable) {
-        this.buttonClick.alpha = 0.01
-        this.buttonNormal.alpha = 1
+        this.button.alpha = 1
         this.pointerUp()
       }
 
@@ -53,19 +56,13 @@ export default class Button {
 
   setClickable(v: boolean): void {
     this.clickable = v
-    this.buttonNormal.setBlendMode(Phaser.BlendModes.LUMINOSITY)
+    if (v) {
+      this.button.alpha = 1
+      this.button.setTexture(this.textureNormal)
+    } else {
+      this.button.alpha = 0.75
+      this.button.setTexture(this.textureOnClick)
+    }
   }
-
-  pointerDown() {}
-  pointerUp() {}
-
-  // pointerDown(button) {
-  //   console.log(button)
-  //   // this.button.visible = false
-  // }
-
-  // pointerUp() {
-  //   
-  // }
 
 }
