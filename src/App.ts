@@ -1,6 +1,6 @@
 import "phaser";
-import TestScene from "./Scenes/TestScene";
 import Startup from "./Scenes/Startup";
+import End from "./Scenes/End";
 import Icerink from "./Scenes/Icerink";
 import IcerinkHUD from "./Scenes/IcerinkHUD";
 
@@ -43,7 +43,7 @@ const config = {
             //debugShowVelocity: false
         // }
     },
-    scene: [ Startup, Icerink, IcerinkHUD],
+    scene: [ Startup, Icerink, IcerinkHUD, End],
     type: Phaser.AUTO,
     scale: {
         mode: Phaser.Scale.FIT

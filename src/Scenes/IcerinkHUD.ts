@@ -7,15 +7,19 @@ export default class IcerinkHUD extends Phaser.Scene {
   timerText: Phaser.GameObjects.Text
   splitTime1: Phaser.GameObjects.Text
   splitTime2: Phaser.GameObjects.Text
+  distanceText: Phaser.GameObjects.Text
 
   skaterName1: Phaser.GameObjects.Text
   skaterName2: Phaser.GameObjects.Text
 
   distances = {
     '500': {
-      finishDistances: [0, 100, 500]
+      finishDistances: [0, 100, 500],
+      finishAmount: 3
     }
   }
+
+  distance = 500
 
   player: Skater
   opponent: Skater
@@ -54,11 +58,11 @@ export default class IcerinkHUD extends Phaser.Scene {
     this.timerText = this.add.text(908, 964, `0.00`, textStyle).setOrigin(0.5, 0.5)
     this.splitTime1 = this.add.text(912, 837, `0.00`, smallTextStyle).setOrigin(0.5, 0.5)
     this.splitTime2 = this.add.text(912, 901, `0.00`, smallTextStyle).setOrigin(0.5, 0.5)
+    this.distanceText = this.add.text(231, 965, `0m`, smallTextStyle).setOrigin(0.5, 0.5)
 
     this.skaterName1 = this.add.text(334, 833, this.player.name.toUpperCase(), nameStyle).setOrigin(0, 0.5)
     this.skaterName2 = this.add.text(334, 895, this.opponent.name.toUpperCase(), nameStyle).setOrigin(0, 0.5)
 
-    this.input.mouse.disableContextMenu()
 
   }
 
@@ -103,13 +107,22 @@ export default class IcerinkHUD extends Phaser.Scene {
 
 
   formatDate(date: Date): string {
-    if (date.getMinutes() <= 0) {
-      return `${date.getSeconds()},${('0' + date.getMilliseconds()).slice(-2)}`
+    
+    if(date) {
+      if (date.getMinutes() <= 0) {
+        return `${date.getSeconds()},${('0' + date.getMilliseconds()).slice(-2)}`
+      } else {
+        return `${date.getMinutes()}.${('0' + date.getSeconds()).slice(-2)},${('0' + date.getMilliseconds()).slice(-2)}`
+      }
     } else {
-      return `${date.getMinutes()}.${('0' + date.getSeconds()).slice(-2)},${('0' + date.getMilliseconds()).slice(-2)}`
+      return '0,00'
     }
   }
 
+  showEndingScreen(text: string) {
+    this.scene.stop('icerinkhud')
+    this.scene.launch("end", {text: text})
+  }
 
   update(time, delta) {
 
@@ -120,6 +133,42 @@ export default class IcerinkHUD extends Phaser.Scene {
 
     this.splitTime1.text = this.formatDate(this.player.getLastFinishTime())
     this.splitTime2.text = this.formatDate(this.opponent.getLastFinishTime())
+    
 
+    if (this.opponent.finishTimes.length == this.distances[this.distance.toString()].finishAmount - 1) {
+      this.opponent.acceleration = -0.05
+    }
+
+    let laps = this.player.finishTimes.length
+    this.distanceText.text = this.distances[this.distance.toString()].finishDistances[laps] + '/' + this.distance.toString() + 'm'
+
+    if (laps == this.distances[this.distance.toString()].finishAmount - 1) {
+      this.player.acceleration = -0.05
+
+      let opponentLaps = this.opponent.finishTimes.length
+      let playerLaps = this.player.finishTimes.length
+      let opponentTime = this.opponent.finishTimes[opponentLaps - 1]
+      let playerTime = this.player.finishTimes[playerLaps - 1]
+
+      if (playerLaps > 0 && opponentLaps > 0) {
+        if (playerTime < opponentTime) {
+          this.showEndingScreen("WON")
+        } else {
+          if (playerLaps > opponentLaps) {
+            this.showEndingScreen("WON")
+          } else {
+            this.showEndingScreen("LOST")
+          }
+        }
+      } else {
+        if (playerLaps > opponentLaps) {
+          this.showEndingScreen("WON")
+        } else {
+          this.showEndingScreen("LOST")
+        }
+      }
+
+      //open finish screen
+    }
   }
 }

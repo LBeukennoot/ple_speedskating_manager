@@ -33,7 +33,8 @@ export default class Icerink extends Phaser.Scene {
       scene: this,
       texture: 'player',
       name: "Jutta Leerdam",
-      tint: 0xff00ff
+      tint: 0xff00ff,
+      startSpeed: 0.05
     });
     //@ts-ignore
     this.player.startFollow({
@@ -43,7 +44,7 @@ export default class Icerink extends Phaser.Scene {
     this.opposite = new Skater({
       scene: this,
       texture: 'player',
-      startSpeed: 0.05,
+      startSpeed: 0.065,
       // speed: 3,
       startPosition: 50,
       tint: 0x0000ff,

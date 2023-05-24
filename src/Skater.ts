@@ -11,13 +11,11 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
     startSpeed: number
     acceleration: number
     startOperationDone: boolean;
-    finishTimes: Array<Date> = [new Date(0)];
+    finishTimes: Array<Date> = [];
     name: string;
     boostActive: boolean = false
 
     boostSpeed = 1.1
-
-    r = 0
 
     speedParticles
     particlesEmitter
@@ -48,8 +46,8 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         this.acceleration = 0
         this.startOperationDone = false
 
+        //boost particles
         this.speedParticles = this.scene.add.particles('line');
-
         this.particlesEmitter = this.speedParticles.createEmitter(
             {
                 x: 0,
@@ -70,7 +68,6 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
                 }
             }
         )
-
         this.particlesEmitter.startFollow(this)
         this.particlesEmitter.stop()
 
@@ -119,7 +116,7 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
 
     calculateSpeed() {
         if (this.startOperationDone) {
-            this.speed = Phaser.Math.Clamp(this.speed + this.acceleration, this.maxSpeed / 2, this.maxSpeed)
+            this.speed = Phaser.Math.Clamp(this.speed + this.acceleration, this.maxSpeed / 3, this.maxSpeed)
             this.t = this.t + this.normalize(this.speed) <= 1 ? this.t + this.normalize(this.speed) : 0
         } else {
             this.speed = Phaser.Math.Clamp(this.speed + this.startSpeed, 0, this.maxSpeed)
