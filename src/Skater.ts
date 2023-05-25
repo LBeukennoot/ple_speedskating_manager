@@ -30,6 +30,16 @@ export default class Skater extends Phaser.Physics.Arcade.Sprite {
         scene.physics.add.existing(this)
         this.flipX = true
 
+        this.anims.create({
+            key: 'skating',
+            frames: this.anims.generateFrameNumbers('player', { frames: [0, 1, 2, 3] }),
+            frameRate: 6,
+            repeat: -1
+        });
+
+        // this.setScale(4);
+        this.play('skating');
+
         this.tint = tint
         this.name = name
 
