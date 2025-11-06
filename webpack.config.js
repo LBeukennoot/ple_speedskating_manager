@@ -17,5 +17,5 @@ module.exports = {
     filename: 'js/app.js',
     path: path.resolve(__dirname, 'dist')
   },
-  mode: 'development'
+  mode: 'production'
 };
