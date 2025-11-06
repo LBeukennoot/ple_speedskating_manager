@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "set PUBLIC_URL = https://iamlars.nl && webpack && set PUBLIC_URL = ",
+    "build": "webpack --config webpack.config.js",
     "start": "webpack --watch"
   },
   "keywords": [],
